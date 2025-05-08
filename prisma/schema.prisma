@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum SensorType {
+  PINTU
+  GERAK
+}
+
+enum ValueType {
+  TERBUKA
+  TERTUTUP
+  GERAK
+  DIAM
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([username])
+}
+
+model Jadwal {
+  id        Int      @id @default(autoincrement())
+  sensors   Sensor[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sensor {
+  id        Int        @id @default(autoincrement())
+  jadwalId  Int
+  jadwal    Jadwal     @relation(fields: [jadwalId], references: [id])
+  type      SensorType
+  value     ValueType
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([jadwalId, type])
+}
