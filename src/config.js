@@ -11,7 +11,7 @@ const APPLICATION = {
 const PORT = process.env.PORT || 9000;
 const JWT_SECRET = process.env.JWT_SECRET || "JWTSECRET";
 const TOKEN_EXPIRED = 7 * 24 * 60 * 60 * 1000;
-const DATA_TAKE = 120;
+const DATA_TAKE = 50;
 
 const ioConfig = {
 	cors: {
